@@ -11,13 +11,19 @@ service cloud.firestore {
     function hasRole(role) {
       return isAuth() && 
         exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == role;
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('role', '') == role;
     }
 
     // Helper function to check if the user is an admin, super_admin or moderateur safely
     function isAdminOrStaff() {
-      return hasRole('admin') || hasRole('super_admin') || hasRole('moderateur') ||
-        (isAuth() && (request.auth.token.email == 'felixjonathan201@gmail.com' || request.auth.token.email == 'devhaitian@gmail.com'));
+      return isAuth() && (
+        request.auth.uid == 'uy02wtmRckMzQDFZnY2fZFaKHBg1' ||
+        request.auth.token.email == 'felixjonathan201@gmail.com' ||
+        request.auth.token.email == 'devhaitian@gmail.com' ||
+        hasRole('admin') ||
+        hasRole('super_admin') ||
+        hasRole('moderateur')
+      );
     }
 
     match /users/{userId} {
@@ -27,12 +33,16 @@ service cloud.firestore {
       allow update: if isAuth() && request.auth.uid == userId &&
         (
           request.resource.data.role == resource.data.role ||
-          (request.auth.token.email == 'felixjonathan201@gmail.com' || request.auth.token.email == 'devhaitian@gmail.com')
+          request.auth.uid == 'uy02wtmRckMzQDFZnY2fZFaKHBg1' ||
+          request.auth.token.email == 'felixjonathan201@gmail.com' ||
+          request.auth.token.email == 'devhaitian@gmail.com'
         ) &&
         (
           request.resource.data.statut_compte == resource.data.statut_compte ||
           request.resource.data.statut_compte == 'en_attente' ||
-          (request.auth.token.email == 'felixjonathan201@gmail.com' || request.auth.token.email == 'devhaitian@gmail.com')
+          request.auth.uid == 'uy02wtmRckMzQDFZnY2fZFaKHBg1' ||
+          request.auth.token.email == 'felixjonathan201@gmail.com' ||
+          request.auth.token.email == 'devhaitian@gmail.com'
         );
       
       // Anyone can create their own profile during registration.
@@ -41,6 +51,7 @@ service cloud.firestore {
           request.resource.data.role == 'etudiant' || 
           request.resource.data.email == 'felixjonathan201@gmail.com' ||
           request.resource.data.email == 'devhaitian@gmail.com' ||
+          request.auth.uid == 'uy02wtmRckMzQDFZnY2fZFaKHBg1' ||
           request.auth.token.email == 'felixjonathan201@gmail.com' ||
           request.auth.token.email == 'devhaitian@gmail.com' ||
           (
@@ -48,6 +59,7 @@ service cloud.firestore {
             (
               request.resource.data.email == 'felixjonathan201@gmail.com' || 
               request.resource.data.email == 'devhaitian@gmail.com' ||
+              request.auth.uid == 'uy02wtmRckMzQDFZnY2fZFaKHBg1' ||
               request.auth.token.email == 'felixjonathan201@gmail.com' ||
               request.auth.token.email == 'devhaitian@gmail.com'
             )

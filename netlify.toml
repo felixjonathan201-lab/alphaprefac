@@ -1,32 +1,25 @@
 # ==============================================================================
-# Configuration de Déploiement Netlify - Alpha Prefac (TanStack Start / Nitro)
+# Configuration de Déploiement Netlify - Alpha Prefac (TanStack Start / Vite SSR)
 # ==============================================================================
 
-# 1. PARAMÈTRES DE CONSTRUTION (BUILD)
-# Par défaut, TanStack Start utilise Nitro sous le capot pour packager le serveur et le site.
-# Nitro génère les fichiers statiques de production dans `.output/public`.
+# 1. PARAMÈTRES DE CONSTRUCTION (BUILD)
+# Le projet utilise Vite / TanStack Start en mode SSR/Hybride.
+# Le build produit les fichiers statiques dans "dist/client" et le bundle serveur dans "dist/server".
+# Pour un déploiement statique Netlify, nous servons uniquement le dossier "dist/client".
 [build]
   command = "npm run build"
-  publish = ".output/public"
+  publish = "dist/client"
 
 [build.environment]
-  NITRO_PRESET = "netlify"
   NODE_VERSION = "20"
 
-# Note : Si vous préférez compiler ce projet comme une SPA (Single Page Application)
-# 100% statique de manière traditionnelle, changez :
-#   publish = "dist" (ou le dossier configuré par Vite)
-#   Et activez la règle de redirection SPA classique ci-dessous.
-
 # 2. RÈGLES DE REDIRECTION (ROUTING FALLBACK)
-# Lorsque vous utilisez la compilation standard avec "NITRO_PRESET = netlify",
-# Nitro écrit automatiquement les fichiers de redirection Netlify indispensables dans .output/public.
-#
-# SI vous passez l'application en mode SPA statique classique (Vite standard), décommentez ceci :
-# [[redirects]]
-#   from = "/*"
-#   to = "/index.html"
-#   status = 200
+# Redirection SPA classique pour que le routeur côté client (TanStack Router) gère le routage de l'app.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
 
 # 3. ENTÊTES DE SÉCURITÉ ET OPTIMISATION DE CACHE (HEADERS)
 # Mise en cache agressive des éléments statiques immuables compilés par Vite
