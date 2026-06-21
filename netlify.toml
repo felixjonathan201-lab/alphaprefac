@@ -1,0 +1,55 @@
+# ==============================================================================
+# Configuration de Déploiement Netlify - Alpha Prefac (TanStack Start / Nitro)
+# ==============================================================================
+
+# 1. PARAMÈTRES DE CONSTRUTION (BUILD)
+# Par défaut, TanStack Start utilise Nitro sous le capot pour packager le serveur et le site.
+# Nitro génère les fichiers statiques de production dans `.output/public`.
+[build]
+  command = "npm run build"
+  publish = ".output/public"
+
+[build.environment]
+  NITRO_PRESET = "netlify"
+  NODE_VERSION = "20"
+
+# Note : Si vous préférez compiler ce projet comme une SPA (Single Page Application)
+# 100% statique de manière traditionnelle, changez :
+#   publish = "dist" (ou le dossier configuré par Vite)
+#   Et activez la règle de redirection SPA classique ci-dessous.
+
+# 2. RÈGLES DE REDIRECTION (ROUTING FALLBACK)
+# Lorsque vous utilisez la compilation standard avec "NITRO_PRESET = netlify",
+# Nitro écrit automatiquement les fichiers de redirection Netlify indispensables dans .output/public.
+#
+# SI vous passez l'application en mode SPA statique classique (Vite standard), décommentez ceci :
+# [[redirects]]
+#   from = "/*"
+#   to = "/index.html"
+#   status = 200
+
+# 3. ENTÊTES DE SÉCURITÉ ET OPTIMISATION DE CACHE (HEADERS)
+# Mise en cache agressive des éléments statiques immuables compilés par Vite
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cache pour les polices Web
+[[headers]]
+  for = "/*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Entêtes globaux de sécurité pour toutes les requêtes HTML
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+

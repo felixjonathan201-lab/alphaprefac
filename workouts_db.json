@@ -1,0 +1,278 @@
+[
+  {
+    "id": "w-1",
+    "title": "Leg Day Express",
+    "date": "2026-06-07T15:15:53.865Z",
+    "duration": 45,
+    "notes": "Excellent focus today. Squat feels comfortable.",
+    "exercises": [
+      {
+        "id": "el-1",
+        "exerciseId": "9",
+        "sets": [
+          {
+            "id": "s-1",
+            "weight": 60,
+            "reps": 8,
+            "completed": true
+          },
+          {
+            "id": "s-2",
+            "weight": 60,
+            "reps": 8,
+            "completed": true
+          },
+          {
+            "id": "s-3",
+            "weight": 65,
+            "reps": 6,
+            "completed": true
+          }
+        ]
+      },
+      {
+        "id": "el-2",
+        "exerciseId": "11",
+        "sets": [
+          {
+            "id": "s-4",
+            "weight": 35,
+            "reps": 10,
+            "completed": true
+          },
+          {
+            "id": "s-5",
+            "weight": 35,
+            "reps": 10,
+            "completed": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "w-2",
+    "title": "Upper Body Focus",
+    "date": "2026-06-09T15:15:53.865Z",
+    "duration": 50,
+    "notes": "Pushed bench press. Form was neat.",
+    "exercises": [
+      {
+        "id": "el-3",
+        "exerciseId": "1",
+        "sets": [
+          {
+            "id": "s-6",
+            "weight": 50,
+            "reps": 10,
+            "completed": true
+          },
+          {
+            "id": "s-7",
+            "weight": 55,
+            "reps": 8,
+            "completed": true
+          },
+          {
+            "id": "s-8",
+            "weight": 55,
+            "reps": 8,
+            "completed": true
+          }
+        ]
+      },
+      {
+        "id": "el-4",
+        "exerciseId": "8",
+        "sets": [
+          {
+            "id": "s-9",
+            "weight": 40,
+            "reps": 10,
+            "completed": true
+          },
+          {
+            "id": "s-10",
+            "weight": 40,
+            "reps": 10,
+            "completed": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "w-3",
+    "title": "Cardio & Core Trim",
+    "date": "2026-06-11T15:15:53.865Z",
+    "duration": 35,
+    "notes": "Sweaty session, short rest times.",
+    "exercises": [
+      {
+        "id": "el-5",
+        "exerciseId": "23",
+        "sets": [
+          {
+            "id": "s-11",
+            "weight": 0,
+            "reps": 15,
+            "completed": true
+          }
+        ]
+      },
+      {
+        "id": "el-6",
+        "exerciseId": "20",
+        "sets": [
+          {
+            "id": "s-12",
+            "weight": 0,
+            "reps": 3,
+            "completed": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "w-4",
+    "title": "Leg Day Progression",
+    "date": "2026-06-13T15:15:53.865Z",
+    "duration": 55,
+    "notes": "Increased squat weight - feeling stronger!",
+    "exercises": [
+      {
+        "id": "el-7",
+        "exerciseId": "9",
+        "sets": [
+          {
+            "id": "s-13",
+            "weight": 65,
+            "reps": 8,
+            "completed": true
+          },
+          {
+            "id": "s-14",
+            "weight": 65,
+            "reps": 8,
+            "completed": true
+          },
+          {
+            "id": "s-15",
+            "weight": 70,
+            "reps": 6,
+            "completed": true
+          }
+        ]
+      },
+      {
+        "id": "el-8",
+        "exerciseId": "10",
+        "sets": [
+          {
+            "id": "s-16",
+            "weight": 100,
+            "reps": 10,
+            "completed": true
+          },
+          {
+            "id": "s-17",
+            "weight": 120,
+            "reps": 8,
+            "completed": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "w-5",
+    "title": "Push Strength Burn",
+    "date": "2026-06-15T15:15:53.865Z",
+    "duration": 60,
+    "notes": "Great shoulder pump, minor tricep tweak but fine.",
+    "exercises": [
+      {
+        "id": "el-9",
+        "exerciseId": "1",
+        "sets": [
+          {
+            "id": "s-18",
+            "weight": 55,
+            "reps": 10,
+            "completed": true
+          },
+          {
+            "id": "s-19",
+            "weight": 60,
+            "reps": 8,
+            "completed": true
+          },
+          {
+            "id": "s-20",
+            "weight": 62.5,
+            "reps": 6,
+            "completed": true
+          }
+        ]
+      },
+      {
+        "id": "el-10",
+        "exerciseId": "13",
+        "sets": [
+          {
+            "id": "s-21",
+            "weight": 30,
+            "reps": 8,
+            "completed": true
+          },
+          {
+            "id": "s-22",
+            "weight": 30,
+            "reps": 8,
+            "completed": true
+          }
+        ]
+      },
+      {
+        "id": "el-11",
+        "exerciseId": "16",
+        "sets": [
+          {
+            "id": "s-23",
+            "weight": 12,
+            "reps": 12,
+            "completed": true
+          },
+          {
+            "id": "s-24",
+            "weight": 14,
+            "reps": 10,
+            "completed": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "w-6",
+    "title": "Cardio Blitz",
+    "date": "2026-06-16T15:15:53.865Z",
+    "duration": 40,
+    "notes": "Fast rowing sprint.",
+    "exercises": [
+      {
+        "id": "el-12",
+        "exerciseId": "25",
+        "sets": [
+          {
+            "id": "s-25",
+            "weight": 0,
+            "reps": 20,
+            "completed": true
+          }
+        ]
+      }
+    ]
+  }
+]

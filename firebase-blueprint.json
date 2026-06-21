@@ -1,0 +1,157 @@
+{
+  "collections": {
+    "users": {
+      "fields": {
+        "uid": {
+          "type": "string",
+          "description": "User dynamic unique ID from Firebase Auth"
+        },
+        "nom": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address"
+        },
+        "telephone": {
+          "type": "string",
+          "description": "User phone number"
+        },
+        "role": {
+          "type": "string",
+          "defaultValue": "etudiant",
+          "description": "User role: etudiant, moderateur, admin, or super_admin"
+        },
+        "statut_compte": {
+          "type": "string",
+          "defaultValue": "en_attente",
+          "description": "Account approval status: en_attente, approuve, suspendu, or refuse"
+        },
+        "universite": {
+          "type": "string",
+          "description": "User university name"
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "Creation timestamp"
+        },
+        "lastLogin": {
+          "type": "timestamp",
+          "description": "Most recent login timestamp"
+        }
+      },
+      "indexes": []
+    },
+    "notifications": {
+      "fields": {
+        "titre": {
+          "type": "string",
+          "description": "Notification title"
+        },
+        "message": {
+          "type": "string",
+          "description": "Notification message body"
+        },
+        "destinataire": {
+          "type": "string",
+          "description": "Recipient user ID or 'all' for global broadcast"
+        },
+        "type": {
+          "type": "string",
+          "description": "Notification type: personnelle, groupe, or globale"
+        },
+        "lu": {
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Read status flag"
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "Creation timestamp"
+        }
+      },
+      "indexes": []
+    },
+    "activity_logs": {
+      "fields": {
+        "adminUid": {
+          "type": "string",
+          "description": "UID of the admin executing the action"
+        },
+        "adminEmail": {
+          "type": "string",
+          "description": "Email of the admin executing the action"
+        },
+        "action": {
+          "type": "string",
+          "description": "Type of action: connexion, validation_compte, suppression_utilisateur, changement_role, envoi_notification, modification_donnees"
+        },
+        "details": {
+          "type": "string",
+          "description": "Human readable details of the audited action"
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "Creation timestamp"
+        }
+      },
+      "indexes": []
+    },
+    "settings": {
+      "fields": {
+        "content_fr": {
+          "type": "string",
+          "description": "About Us content in French"
+        },
+        "content_ht": {
+          "type": "string",
+          "description": "About Us content in Haitian Creole"
+        },
+        "updatedAt": {
+          "type": "timestamp",
+          "description": "Last update timestamp"
+        },
+        "updatedBy": {
+          "type": "string",
+          "description": "Email or ID of the editor"
+        }
+      },
+      "indexes": []
+    },
+    "contact_messages": {
+      "fields": {
+        "nom": {
+          "type": "string",
+          "description": "Full name of the person sending the message"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the sender"
+        },
+        "telephone": {
+          "type": "string",
+          "description": "Phone or WhatsApp number of the sender"
+        },
+        "sujet": {
+          "type": "string",
+          "description": "Subject or reason for reaching out"
+        },
+        "message": {
+          "type": "string",
+          "description": "Form message content"
+        },
+        "statut": {
+          "type": "string",
+          "defaultValue": "nouveau",
+          "description": "Status of the message: nouveau, lu, traite"
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "Creation timestamp"
+        }
+      },
+      "indexes": []
+    }
+  }
+}

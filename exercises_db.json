@@ -1,0 +1,184 @@
+[
+  {
+    "id": "1",
+    "name": "Bench Press",
+    "nameFr": "Développé Couché",
+    "muscleGroup": "Chest",
+    "category": "Strength"
+  },
+  {
+    "id": "2",
+    "name": "Incline Dumbbell Press",
+    "nameFr": "Développé Incliné Halères",
+    "muscleGroup": "Chest",
+    "category": "Strength"
+  },
+  {
+    "id": "3",
+    "name": "Chest Flyes",
+    "nameFr": "Écartés Couché",
+    "muscleGroup": "Chest",
+    "category": "Strength"
+  },
+  {
+    "id": "4",
+    "name": "Push-up",
+    "nameFr": "Pompes",
+    "muscleGroup": "Chest",
+    "category": "Bodyweight"
+  },
+  {
+    "id": "5",
+    "name": "Deadlift",
+    "nameFr": "Soulevé de Terre",
+    "muscleGroup": "Back",
+    "category": "Strength"
+  },
+  {
+    "id": "6",
+    "name": "Pull-up",
+    "nameFr": "Tractions",
+    "muscleGroup": "Back",
+    "category": "Bodyweight"
+  },
+  {
+    "id": "7",
+    "name": "Lat Pulldown",
+    "nameFr": "Tirage Vertical",
+    "muscleGroup": "Back",
+    "category": "Strength"
+  },
+  {
+    "id": "8",
+    "name": "Bent Over Row",
+    "nameFr": "Tirage Buste Penché",
+    "muscleGroup": "Back",
+    "category": "Strength"
+  },
+  {
+    "id": "9",
+    "name": "Squat",
+    "nameFr": "Squat",
+    "muscleGroup": "Legs",
+    "category": "Strength"
+  },
+  {
+    "id": "10",
+    "name": "Leg Press",
+    "nameFr": "Presse à Cuisses",
+    "muscleGroup": "Legs",
+    "category": "Strength"
+  },
+  {
+    "id": "11",
+    "name": "Lying Leg Curl",
+    "nameFr": "Leg Curl Allongé",
+    "muscleGroup": "Legs",
+    "category": "Strength"
+  },
+  {
+    "id": "12",
+    "name": "Calf Raise",
+    "nameFr": "Extension Mollets",
+    "muscleGroup": "Legs",
+    "category": "Strength"
+  },
+  {
+    "id": "13",
+    "name": "Overhead Press",
+    "nameFr": "Développé Militaire",
+    "muscleGroup": "Shoulders",
+    "category": "Strength"
+  },
+  {
+    "id": "14",
+    "name": "Dumbbell Lateral Raise",
+    "nameFr": "Élévations Latérales",
+    "muscleGroup": "Shoulders",
+    "category": "Strength"
+  },
+  {
+    "id": "15",
+    "name": "Rear Delt Flyes",
+    "nameFr": "Oiseau Haltères",
+    "muscleGroup": "Shoulders",
+    "category": "Strength"
+  },
+  {
+    "id": "16",
+    "name": "Bicep Curl",
+    "nameFr": "Curl Biceps",
+    "muscleGroup": "Arms",
+    "category": "Strength"
+  },
+  {
+    "id": "17",
+    "name": "Tricep Pushdown",
+    "nameFr": "Triceps Poulie",
+    "muscleGroup": "Arms",
+    "category": "Strength"
+  },
+  {
+    "id": "18",
+    "name": "Hammer Curl",
+    "nameFr": "Curl Marteau",
+    "muscleGroup": "Arms",
+    "category": "Strength"
+  },
+  {
+    "id": "19",
+    "name": "Dips",
+    "nameFr": "Dips",
+    "muscleGroup": "Arms",
+    "category": "Bodyweight"
+  },
+  {
+    "id": "20",
+    "name": "Plank",
+    "nameFr": "Gainage / Planche",
+    "muscleGroup": "Core",
+    "category": "Bodyweight"
+  },
+  {
+    "id": "21",
+    "name": "Abdominal Crunch",
+    "nameFr": "Crunch Abdominal",
+    "muscleGroup": "Core",
+    "category": "Bodyweight"
+  },
+  {
+    "id": "22",
+    "name": "Hanging Leg Raise",
+    "nameFr": "Relevé de Jambes Suspendu",
+    "muscleGroup": "Core",
+    "category": "Bodyweight"
+  },
+  {
+    "id": "23",
+    "name": "Treadmill Run",
+    "nameFr": "Course sur Tapis",
+    "muscleGroup": "Cardio",
+    "category": "Cardio"
+  },
+  {
+    "id": "24",
+    "name": "Stationary Cycling",
+    "nameFr": "Vélo d'Appartement",
+    "muscleGroup": "Cardio",
+    "category": "Cardio"
+  },
+  {
+    "id": "25",
+    "name": "Rowing Machine",
+    "nameFr": "Rameur",
+    "muscleGroup": "Cardio",
+    "category": "Cardio"
+  },
+  {
+    "id": "26",
+    "name": "Jump Rope",
+    "nameFr": "Corde à Sauter",
+    "muscleGroup": "Cardio",
+    "category": "Cardio"
+  }
+]

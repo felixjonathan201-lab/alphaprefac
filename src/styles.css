@@ -1,0 +1,173 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-card-border: var(--card-border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent-gold: var(--accent-gold);
+  --color-accent-blue: var(--accent-blue);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  --font-display: "Montserrat", "Inter", sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+:root {
+  --radius: 0.625rem;
+
+  /* Deep navy background like the reference */
+  --background: oklch(0.16 0.05 265);
+  --foreground: oklch(0.98 0.005 250);
+
+  --card: oklch(0.21 0.055 265);
+  --card-foreground: oklch(0.98 0.005 250);
+  --card-border: oklch(0.32 0.06 265);
+
+  --primary: oklch(0.85 0.16 88); /* gold/yellow */
+  --primary-foreground: oklch(0.18 0.05 265);
+
+  --accent-gold: oklch(0.85 0.16 88);
+  --accent-blue: oklch(0.58 0.18 255);
+
+  --muted: oklch(0.24 0.05 265);
+  --muted-foreground: oklch(0.78 0.02 250);
+
+  --border: oklch(0.3 0.06 265);
+  --ring: oklch(0.85 0.16 88);
+}
+
+:root.light,
+.light {
+  /* Soft, elegant ivory/slate light background */
+  --background: oklch(0.98 0.005 265);
+  --foreground: oklch(0.14 0.04 265);
+
+  --card: oklch(1.0 0.0 0);
+  --card-foreground: oklch(0.14 0.04 265);
+  --card-border: oklch(0.91 0.015 265);
+
+  --primary: oklch(0.72 0.15 88); /* Enriched gold/yellow to guarantee contrast and readability */
+  --primary-foreground: oklch(0.14 0.04 265);
+
+  --accent-gold: oklch(0.72 0.15 88);
+  --accent-blue: oklch(0.48 0.16 250);
+
+  --muted: oklch(0.94 0.01 265);
+  --muted-foreground: oklch(0.45 0.018 265);
+
+  --border: oklch(0.89 0.015 265);
+  --ring: oklch(0.72 0.15 88);
+}
+
+@layer base {
+  *, ::before, ::after {
+    box-sizing: border-box;
+  }
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    max-width: 100vw;
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+  }
+  body {
+    font-family: var(--font-sans);
+  }
+  #root {
+    max-width: 100vw;
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-accent-gold);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    filter: brightness(1.1);
+  }
+}
+
+@keyframes custom-blink {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5));
+  }
+  50% {
+    opacity: 0.15;
+    filter: drop-shadow(0 0 0px transparent);
+  }
+}
+
+.animate-blink {
+  animation: custom-blink 1.4s infinite ease-in-out;
+}
+
+.gradient-focus {
+  background: linear-gradient(to right, #FFFDF8 0%, #FFF3B3 20%, #FCD34D 50%, #F59E0B 80%, #D97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+@keyframes gold-value-glow {
+  0%, 100% {
+    color: oklch(0.85 0.16 88 / 0.45);
+    text-shadow: 0 0 4px oklch(0.85 0.16 88 / 0.1);
+  }
+  50% {
+    color: oklch(0.85 0.16 88 / 0.95);
+    text-shadow: 0 0 15px oklch(0.85 0.16 88 / 0.65), 0 0 24px oklch(0.85 0.16 88 / 0.3);
+  }
+}
+
+@keyframes gold-label-pulse {
+  0%, 100% {
+    color: var(--muted-foreground);
+  }
+  50% {
+    color: var(--accent-gold);
+    text-shadow: 0 0 8px oklch(0.85 0.16 88 / 0.4);
+  }
+}
+
+.animate-gold-value {
+  animation: gold-value-glow 4s infinite ease-in-out;
+}
+
+.animate-gold-label {
+  animation: gold-label-pulse 4s infinite ease-in-out;
+}
+

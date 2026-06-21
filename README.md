@@ -1,11 +1,21 @@
-<div align="center">
+# Routes
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+TanStack Start uses **file-based routing**. Every `.tsx` file in this directory
+is a route. Do **not** create `src/pages/`, `src/routes/_app/index.tsx`, or
+`app/layout.tsx` — those are Next.js / Remix conventions. The only root layout
+is `src/routes/__root.tsx`.
 
-  <h1>Built with AI Studio</h2>
+## Conventions
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+| File                     | URL                                                     |
+| ------------------------ | ------------------------------------------------------- |
+| `index.tsx`              | `/`                                                     |
+| `about.tsx`              | `/about`                                                |
+| `users/index.tsx`        | `/users`                                                |
+| `users/$id.tsx`          | `/users/:id` (dynamic — bare `$`, no curly braces)      |
+| `posts/{-$category}.tsx` | `/posts/:category?` (optional segment)                  |
+| `files/$.tsx`            | `/files/*` (splat — read via `_splat` param, never `*`) |
+| `_layout.tsx`            | layout route (renders children via `<Outlet />`)        |
+| `__root.tsx`             | app shell — wraps every page; preserve `<Outlet />`     |
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
-
-</div>
+`routeTree.gen.ts` is auto-generated. Don't edit it by hand.

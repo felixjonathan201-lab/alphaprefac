@@ -1,0 +1,8 @@
+{
+  "name": "ALPHA Préfac",
+  "description": "ALPHA PRÉFAC t'accompagne pas-à-pas pour combler tes lacunes académiques et décrocher ton admission dans les plus grandes universités.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

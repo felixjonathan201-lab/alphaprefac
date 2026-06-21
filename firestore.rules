@@ -1,0 +1,102 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if the current user is authenticated
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    // Helper function to check if user has a specific role safely
+    function hasRole(role) {
+      return isAuth() && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == role;
+    }
+
+    // Helper function to check if the user is an admin, super_admin or moderateur safely
+    function isAdminOrStaff() {
+      return hasRole('admin') || hasRole('super_admin') || hasRole('moderateur') ||
+        (isAuth() && (request.auth.token.email == 'felixjonathan201@gmail.com' || request.auth.token.email == 'devhaitian@gmail.com'));
+    }
+
+    match /users/{userId} {
+      // User can read and update their own profile safely.
+      allow read: if isAuth() && request.auth.uid == userId;
+      
+      allow update: if isAuth() && request.auth.uid == userId &&
+        (
+          request.resource.data.role == resource.data.role ||
+          (request.auth.token.email == 'felixjonathan201@gmail.com' || request.auth.token.email == 'devhaitian@gmail.com')
+        ) &&
+        (
+          request.resource.data.statut_compte == resource.data.statut_compte ||
+          request.resource.data.statut_compte == 'en_attente' ||
+          (request.auth.token.email == 'felixjonathan201@gmail.com' || request.auth.token.email == 'devhaitian@gmail.com')
+        );
+      
+      // Anyone can create their own profile during registration.
+      allow create: if isAuth() && request.auth.uid == userId && 
+        (
+          request.resource.data.role == 'etudiant' || 
+          request.resource.data.email == 'felixjonathan201@gmail.com' ||
+          request.resource.data.email == 'devhaitian@gmail.com' ||
+          request.auth.token.email == 'felixjonathan201@gmail.com' ||
+          request.auth.token.email == 'devhaitian@gmail.com' ||
+          (
+            request.resource.data.role == 'admin' && 
+            (
+              request.resource.data.email == 'felixjonathan201@gmail.com' || 
+              request.resource.data.email == 'devhaitian@gmail.com' ||
+              request.auth.token.email == 'felixjonathan201@gmail.com' ||
+              request.auth.token.email == 'devhaitian@gmail.com'
+            )
+          )
+        );
+      
+      // Admin and Staff can manage all profiles.
+      allow read, write: if isAdminOrStaff();
+    }
+
+    match /notifications/{notiId} {
+      // Authenticated users can read notifications where they are the recipient or it's a global notification.
+      allow read: if isAuth() && (
+        resource.data.destinataire == request.auth.uid || 
+        resource.data.destinataire == 'all'
+      );
+      
+      allow read: if isAdminOrStaff();
+      
+      // Only Admin and Staff can write notifications
+      allow create, update, delete: if isAdminOrStaff();
+    }
+
+    match /activity_logs/{logId} {
+      // Only Admin and Staff can read logs.
+      allow read: if isAdminOrStaff();
+      // Allow any logged-in user to create an activity log (e.g., login hook logger)
+      allow create: if isAuth();
+      // Only Admin and Staff can edit or delete
+      allow update, delete: if isAdminOrStaff();
+    }
+
+    match /settings/{settingId} {
+      // Anyone can read config or settings like the "About Us" section details.
+      allow read: if true;
+      // Only Admin and staff can edit configurations/settings.
+      allow write: if isAdminOrStaff();
+    }
+
+    match /admins/{adminId} {
+      // Allow reading accounts to verify credentials, but restrict all writes to authenticated administrative personnel
+      allow read: if true;
+      allow write: if isAdminOrStaff();
+    }
+
+    match /contact_messages/{messageId} {
+      // Anyone can create (submit) a contact message, but only authenticated staff can read, list or manage them
+      allow create: if true;
+      allow read, update, delete: if isAdminOrStaff();
+    }
+  }
+}
