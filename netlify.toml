@@ -3,12 +3,11 @@
 # ==============================================================================
 
 # 1. PARAMÈTRES DE CONSTRUCTION (BUILD)
-# Le projet utilise Vite / TanStack Start en mode SSR/Hybride.
-# Le build produit les fichiers statiques dans "dist/client" et le bundle serveur dans "dist/server".
-# Pour un déploiement statique Netlify, nous servons uniquement le dossier "dist/client".
+# Le projet est configuré en mode SPA (Single Page Application).
+# Le build produit uniquement les fichiers statiques de production dans le dossier "dist".
 [build]
   command = "npm run build"
-  publish = "dist/client"
+  publish = "dist"
 
 [build.environment]
   NODE_VERSION = "20"
