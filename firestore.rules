@@ -26,6 +26,17 @@ service cloud.firestore {
       );
     }
 
+    // Helper function to check if the user is an admin by checking only the /admins collection, as requested
+    function isAdminFromAdmins() {
+      return isAuth() && (
+        request.auth.uid == 'uy02wtmRckMzQDFZnY2fZFaKHBg1' ||
+        request.auth.token.email == 'felixjonathan201@gmail.com' ||
+        request.auth.token.email == 'devhaitian@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.token.email)) ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
     match /users/{userId} {
       // User can read and update their own profile safely.
       allow read: if isAuth() && request.auth.uid == userId;
@@ -80,7 +91,9 @@ service cloud.firestore {
       allow read: if isAdminOrStaff();
       
       // Only Admin and Staff can write notifications
-      allow create, update, delete: if isAdminOrStaff();
+      allow create, update: if isAdminOrStaff();
+      // Only the Admin who created the notification can delete it
+      allow delete: if isAdminOrStaff() && (!('createdBy' in resource.data) || resource.data.createdBy == request.auth.uid);
     }
 
     match /activity_logs/{logId} {
@@ -109,6 +122,13 @@ service cloud.firestore {
       // Anyone can create (submit) a contact message, but only authenticated staff can read, list or manage them
       allow create: if true;
       allow read, update, delete: if isAdminOrStaff();
+    }
+
+    match /gallery/{photoId} {
+      // Direct access from public visitors allowed to read/list
+      allow read: if true;
+      // Only validated admins checked strictly against the admins collection can manage gallery
+      allow write: if isAdminFromAdmins();
     }
   }
 }

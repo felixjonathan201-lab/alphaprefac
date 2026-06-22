@@ -152,6 +152,31 @@
         }
       },
       "indexes": []
+    },
+    "gallery": {
+      "fields": {
+        "title": {
+          "type": "string",
+          "description": "Titre de la photo"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description de la photo"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL de l'image de la photo (Firebase Storage ou dataUrl/external)"
+        },
+        "uploadedBy": {
+          "type": "string",
+          "description": "UID de l'administrateur ayant téléversé la photo"
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "Date d'ajout de la photo dans la galerie"
+        }
+      },
+      "indexes": []
     }
   }
 }

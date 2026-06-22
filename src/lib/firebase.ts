@@ -1,5 +1,6 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
   getFirestore,
   doc,
@@ -40,6 +41,7 @@ export const ADMIN_EMAIL = "felixjonathan201@gmail.com";
 
 export const firebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig);
 export const auth = typeof window !== "undefined" ? getAuth(firebaseApp) : null;
+export const storage = typeof window !== "undefined" ? getStorage(firebaseApp) : null;
 
 // Initialize Firestore targeting the specific provisioned database ID or falling back to default for custom projects
 const targetDatabaseId = databaseId && databaseId !== "(default)" ? databaseId : undefined;
@@ -97,6 +99,7 @@ export interface AppNotification {
   type: "personnelle" | "groupe" | "globale";
   lu: boolean;
   createdAt: Timestamp | FieldValue | null;
+  createdBy?: string;
 }
 
 export interface ActivityLog {
@@ -109,6 +112,7 @@ export interface ActivityLog {
     | "suppression_utilisateur"
     | "changement_role"
     | "envoi_notification"
+    | "suppression_notification"
     | "modification_donnees";
   details: string;
   createdAt: Timestamp | FieldValue | null;
@@ -270,6 +274,7 @@ export async function sendNotification(
         type: "globale",
         lu: false,
         createdAt: serverTimestamp(),
+        createdBy: adminUid,
       });
     } else {
       // For personal or group, we write an individual doc for each UID to support individual "lu" status tracking!
@@ -281,6 +286,7 @@ export async function sendNotification(
           type: data.type,
           lu: false,
           createdAt: serverTimestamp(),
+          createdBy: adminUid,
         });
       }
     }
@@ -298,6 +304,32 @@ export async function sendNotification(
     );
   } catch (error) {
     console.error("Erreur lors de l'envoi de la notification:", error);
+    throw error;
+  }
+}
+
+/**
+ * Delete a notification from Firestore (only allowed for administrators)
+ */
+export async function deleteNotification(
+  adminUid: string,
+  adminEmail: string,
+  notificationId: string,
+): Promise<void> {
+  if (!db) return;
+  try {
+    const docRef = doc(db, "notifications", notificationId);
+    await deleteDoc(docRef);
+
+    // Document activities log
+    await logAdminActivity(
+      adminUid,
+      adminEmail,
+      "suppression_notification",
+      `Suppression de la notification ID: ${notificationId}`,
+    );
+  } catch (error) {
+    console.error("Erreur lors de la suppression de la notification:", error);
     throw error;
   }
 }
@@ -351,4 +383,99 @@ export function handleFirestoreError(
     path,
   };
   console.error("Firestore Error logged: ", JSON.stringify(errInfo));
+}
+
+// Gallery integration types and services
+
+export interface GalleryPhoto {
+  id?: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  createdAt: Timestamp | FieldValue | null;
+  uploadedBy: string;
+}
+
+export async function uploadGalleryImage(file: File): Promise<string> {
+  const storageInstance = getStorage(firebaseApp);
+  if (!storageInstance) throw new Error("Le service de stockage n'est pas prêt.");
+  const storageRef = ref(storageInstance, `gallery/${Date.now()}_${file.name}`);
+  const snapshot = await uploadBytes(storageRef, file);
+  return await getDownloadURL(snapshot.ref);
+}
+
+export async function addGalleryPhoto(
+  adminUid: string,
+  adminEmail: string,
+  photo: { title: string; description: string; imageUrl: string },
+) {
+  if (!db) throw new Error("Le service de base de données n'est pas prêt.");
+  try {
+    const docRef = await addDoc(collection(db, "gallery"), {
+      title: photo.title,
+      description: photo.description,
+      imageUrl: photo.imageUrl,
+      uploadedBy: adminEmail || adminUid,
+      createdAt: serverTimestamp(),
+    });
+
+    await logAdminActivity(
+      adminUid,
+      adminEmail,
+      "modification_donnees",
+      `Ajout de la photo dans la Galerie : ${photo.title} (${docRef.id})`,
+    );
+
+    return docRef.id;
+  } catch (error) {
+    console.error("Erreur d'ajout de photo:", error);
+    handleFirestoreError(error, OperationType.WRITE, "gallery");
+    throw error;
+  }
+}
+
+export async function updateGalleryPhoto(
+  adminUid: string,
+  adminEmail: string,
+  photoId: string,
+  updatedData: { title: string; description: string },
+) {
+  if (!db) throw new Error("Le service de base de données n'est pas prêt.");
+  try {
+    const docRef = doc(db, "gallery", photoId);
+    await updateDoc(docRef, {
+      title: updatedData.title,
+      description: updatedData.description,
+    });
+
+    await logAdminActivity(
+      adminUid,
+      adminEmail,
+      "modification_donnees",
+      `Modification de la photo ID Galerie: ${photoId} -> ${updatedData.title}`,
+    );
+  } catch (error) {
+    console.error("Erreur de modification de la photo:", error);
+    handleFirestoreError(error, OperationType.WRITE, `gallery/${photoId}`);
+    throw error;
+  }
+}
+
+export async function deleteGalleryPhoto(adminUid: string, adminEmail: string, photoId: string) {
+  if (!db) throw new Error("Le service de base de données n'est pas prêt.");
+  try {
+    const docRef = doc(db, "gallery", photoId);
+    await deleteDoc(docRef);
+
+    await logAdminActivity(
+      adminUid,
+      adminEmail,
+      "modification_donnees",
+      `Suppression de la photo ID Galerie: ${photoId}`,
+    );
+  } catch (error) {
+    console.error("Erreur de suppression de la photo:", error);
+    handleFirestoreError(error, OperationType.WRITE, `gallery/${photoId}`);
+    throw error;
+  }
 }

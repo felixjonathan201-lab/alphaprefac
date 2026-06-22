@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Outlet, Link, createRootRouteWithContext, useRouter } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -69,6 +69,99 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+function ConnectionStatus() {
+  const [isOnline, setIsOnline] = useState(
+    typeof navigator !== "undefined" ? navigator.onLine : true,
+  );
+  const [showStatus, setShowStatus] = useState(false);
+  const [statusType, setStatusType] = useState<"online" | "offline">("online");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleOnline = () => {
+      setIsOnline(true);
+      setStatusType("online");
+      setShowStatus(true);
+      const timer = setTimeout(() => {
+        setShowStatus(false);
+      }, 4000);
+      return () => clearTimeout(timer);
+    };
+
+    const handleOffline = () => {
+      setIsOnline(false);
+      setStatusType("offline");
+      setShowStatus(true);
+    };
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    // Initial check: if offline, display persistently
+    if (!navigator.onLine) {
+      setIsOnline(false);
+      setStatusType("offline");
+      setShowStatus(true);
+    }
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+
+  if (!showStatus) return null;
+
+  return (
+    <div className="fixed bottom-6 right-6 z-50 animate-in fade-in slide-in-from-bottom-5 duration-300">
+      {statusType === "offline" ? (
+        <div className="flex items-center gap-3 rounded-2xl border border-amber-500/30 bg-amber-950/95 px-4 py-3.5 shadow-2xl backdrop-blur-md text-amber-200">
+          <span className="relative flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+          </span>
+          <div className="text-left">
+            <p className="text-[10px] font-mono font-bold uppercase tracking-wider">
+              Mode Hors-ligne
+            </p>
+            <p className="text-[11px] text-amber-300/90 font-sans mt-0.5">
+              Données lues depuis le cache local (IndexedDB) 💾
+            </p>
+          </div>
+          <button
+            onClick={() => setShowStatus(false)}
+            className="text-amber-400 hover:text-amber-100 text-xs pl-2 font-mono font-bold"
+          >
+            ✕
+          </button>
+        </div>
+      ) : (
+        <div className="flex items-center gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-950/95 px-4 py-3.5 shadow-2xl backdrop-blur-md text-emerald-200">
+          <span className="relative flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+          </span>
+          <div className="text-left">
+            <p className="text-[10px] font-mono font-bold uppercase tracking-wider">
+              Connexion rétablie
+            </p>
+            <p className="text-[11px] text-emerald-300/90 font-sans mt-0.5">
+              Données et cache entièrement synchronisés ⚡
+            </p>
+          </div>
+          <button
+            onClick={() => setShowStatus(false)}
+            className="text-emerald-400 hover:text-emerald-100 text-xs pl-2 font-mono font-bold"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
@@ -86,6 +179,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
+      <ConnectionStatus />
     </QueryClientProvider>
   );
 }
