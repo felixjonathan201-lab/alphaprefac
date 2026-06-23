@@ -18,7 +18,7 @@
   from = "/*"
   to = "/index.html"
   status = 200
-  force = false
+  force = true
 
 # 3. ENTÊTES DE SÉCURITÉ ET OPTIMISATION DE CACHE (HEADERS)
 # Mise en cache agressive des éléments statiques immuables compilés par Vite
